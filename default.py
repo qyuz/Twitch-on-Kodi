@@ -39,30 +39,42 @@ def handleTwitchException(exception):
 @PLUGIN.route('/')
 def createMainListing():
     items = [
-        {'label': PLUGIN.get_string(30005),
-         'path': PLUGIN.url_for(endpoint='createListOfFeaturedStreams')
-         },
-        {'label': PLUGIN.get_string(30001),
-         'path': PLUGIN.url_for(endpoint='createListOfGames', index='0')
-         },
-        {'label': PLUGIN.get_string(30008),
-         'path': PLUGIN.url_for(endpoint='createListOfChannels', index='0')
-         },
-        {'label': PLUGIN.get_string(30002),
-         'path': PLUGIN.url_for(endpoint='createFollowingList')
-         },
-        {'label': PLUGIN.get_string(30066),
-         'path': PLUGIN.url_for(endpoint='createFollowingGameList')
-         },
-        {'label': PLUGIN.get_string(30006),
-         'path': PLUGIN.url_for(endpoint='createListOfTeams', index='0')
-         },
-        {'label': PLUGIN.get_string(30003),
-         'path': PLUGIN.url_for(endpoint='search')
-         },
-        {'label': PLUGIN.get_string(30004),
-         'path': PLUGIN.url_for(endpoint='showSettings')
-         }
+        {
+            'label': PLUGIN.get_string(30005),
+            'path': PLUGIN.url_for(endpoint='createListOfFeaturedStreams')
+        },
+        {
+            'label': PLUGIN.get_string(30001),
+            'path': PLUGIN.url_for(endpoint='createListOfGames', index='0')
+        },
+        {
+            'label': PLUGIN.get_string(30008),
+            'path': PLUGIN.url_for(endpoint='createListOfChannels', index='0')
+        },
+        {
+            'label': PLUGIN.get_string(30002),
+            'path': PLUGIN.url_for(endpoint='createFollowingList')
+        },
+        {
+            'label': PLUGIN.get_string(30066),
+            'path': PLUGIN.url_for(endpoint='createFollowingGameList')
+        },
+        {
+            'label': PLUGIN.get_string(30006),
+            'path': PLUGIN.url_for(endpoint='createListOfTeams', index='0')
+        },
+        {
+            'label': PLUGIN.get_string(30003),
+            'path': PLUGIN.url_for(endpoint='search')
+        },
+        {
+            'label': PLUGIN.get_string(30004),
+            'path': PLUGIN.url_for(endpoint='showSettings')
+        },
+        {
+            'label': PLUGIN.get_string(30090),
+            'path': PLUGIN.url_for(endpoint='openChannel')
+        }
     ]
     return items
 
@@ -227,6 +239,16 @@ def createListOfTeamStreams(team):
     return [CONVERTER.convertTeamChannelToListItem(channel[Keys.CHANNEL])
             for channel in TWITCHTV.getTeamStreams(team)]
 
+
+@PLUGIN.route('/openChannel/')
+@managedTwitchExceptions
+def openChannel():
+    query = PLUGIN.keyboard('', PLUGIN.get_string(30090))
+    if query:
+        target = PLUGIN.url_for(endpoint='channelVideos', name=query)
+    else:
+        target = PLUGIN.url_for(endpoint='createMainListing')
+    PLUGIN.redirect(target)
 
 def calculatePaginationValues(index):
     index = int(index)
