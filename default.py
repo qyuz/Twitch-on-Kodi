@@ -95,6 +95,10 @@ def createListOfGames(index):
     games = TWITCHTV.getGames(offset, limit)
     items = [CONVERTER.convertGameToListItem(element[Keys.GAME]) for element in games]
 
+    items.insert(0, {
+        'label': 'update page',
+        'path': PLUGIN.url_for('createListOfGames', index=index)
+    })
     items.append(linkToNextPage('createListOfGames', index))
     return items
 
@@ -249,6 +253,12 @@ def openChannel():
     else:
         target = PLUGIN.url_for(endpoint='createMainListing')
     PLUGIN.redirect(target)
+
+@PLUGIN.route('/update_view/<url>')
+@managedTwitchExceptions
+def updateView(url):
+    PLUGIN.update_view(url);
+
 
 def calculatePaginationValues(index):
     index = int(index)
