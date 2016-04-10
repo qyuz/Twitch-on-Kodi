@@ -96,7 +96,7 @@ def createListOfGames(index):
     items = [CONVERTER.convertGameToListItem(element[Keys.GAME]) for element in games]
 
     items.insert(0, {
-        'label': 'update page',
+        'label': '.',
         'path': PLUGIN.url_for('createListOfGames', index=index)
     })
     items.append(linkToNextPage('createListOfGames', index))
@@ -122,7 +122,7 @@ def createListForGame(gameName, index):
     items = [CONVERTER.convertStreamToListItem(stream) for stream
              in TWITCHTV.getGameStreams(gameName, offset, limit)]
     items.insert(0, {
-        'label': 'update page',
+        'label': '.',
         'path': PLUGIN.url_for('createListForGame', gameName=gameName, index=index)
     })
     items.append(linkToNextPage('createListForGame', index, gameName=gameName))
