@@ -118,10 +118,15 @@ def createListOfChannels(index):
 @managedTwitchExceptions
 def createListForGame(gameName, index):
     index, offset, limit = calculatePaginationValues(index)
+
     items = [CONVERTER.convertStreamToListItem(stream) for stream
              in TWITCHTV.getGameStreams(gameName, offset, limit)]
-
+    items.insert(0, {
+        'label': 'update page',
+        'path': PLUGIN.url_for('createListForGame', gameName=gameName, index=index)
+    })
     items.append(linkToNextPage('createListForGame', index, gameName=gameName))
+
     return items
 
 
