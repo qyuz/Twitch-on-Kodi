@@ -73,13 +73,20 @@ def createMainListing():
          'context_menu': context_menu,
          'path': PLUGIN.url_for(endpoint='search')
          },
-        {'label': PLUGIN.get_string(30004),
-         'icon': Images.ICON,
-         'thumbnail': Images.THUMB,
-         'art': utils.theArt(),
-         'context_menu': context_menu,
-         'path': PLUGIN.url_for(endpoint='showSettings')
-         }
+            {'label': PLUGIN.get_string(30004),
+             'icon': Images.ICON,
+             'thumbnail': Images.THUMB,
+             'art': utils.theArt(),
+             'context_menu': context_menu,
+             'path': PLUGIN.url_for(endpoint='showSettings')
+        },
+            {'label': PLUGIN.get_string(30099),
+             'icon': Images.ICON,
+             'thumbnail': Images.THUMB,
+             'art': utils.theArt(),
+             'context_menu': context_menu,
+             'path': PLUGIN.url_for(endpoint='openChannel')
+        }
     ]
     PLUGIN.set_content(utils.getContentType())
     return items
@@ -194,6 +201,10 @@ def channelVideosList(name, index, past):
     offset = index * 8
     videos = TWITCHTV.getFollowerVideos(name, offset, past)
     items = [CONVERTER.convertVideoListToListItem(video) for video in videos[Keys.VIDEOS]]
+    items.insert(0, {
+        'label': '.',
+        'path': PLUGIN.url_for('channelVideosList', name=name, index=index, past=past)
+    })
     if videos[Keys.TOTAL] > (offset + 8):
         items.append(utils.linkToNextPage('channelVideosList', index, name=name, past=past))
     PLUGIN.set_content(utils.getContentType())
@@ -327,3 +338,14 @@ def clearLivePreviews(notify):
     if notify.lower() == 'false':
         do_notify = False
     utils.TextureCacheCleaner().remove_like(LIVE_PREVIEW_IMAGE, do_notify)
+
+
+@PLUGIN.route('/openChannel/')
+@managedTwitchExceptions
+def openChannel():
+    query = PLUGIN.keyboard('', PLUGIN.get_string(30099))
+    if query:
+        target = PLUGIN.url_for(endpoint='channelVideos', name=query)
+    else:
+        target = PLUGIN.url_for(endpoint='createMainListing')
+    PLUGIN.redirect(target)

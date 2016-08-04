@@ -11,7 +11,9 @@
     <string id="30005">Featured Streams</string>
     <string id="30006">Teams</string>
     <string id="30008">Channels</string>
+    <string id="30099">Channel Videos</string>
 
+	
     <!--search -->
     <string id="30007">Search for channels</string>
 
@@ -74,7 +76,7 @@
     <string id="30096">API</string>
     <string id="30097">OAuth Client ID</string>
 
-    <string id="30050">Username</string>
+`    <string id="30050">Username</string>
     <string id="30099">OAuth Token</string>
 
     <!--contextmenu-->
