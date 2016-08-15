@@ -95,7 +95,7 @@ class JSONScraper(object):
 class M3UPlaylist(object):
     def __init__(self, data, qualityList=None):
         self.playlist = dict()
-#        self.qualityList = qualityList or Keys.QUALITY_LIST_STREAM
+        self.qualityList = qualityList or Keys.YO_QUALITY_LIST_STREAM
 
         def parseQuality(ExtXMediaLine, ExtXStreamInfLine, Url):
             # find name of current quality, NAME=", 6 chars
@@ -125,6 +125,7 @@ class M3UPlaylist(object):
                     qualityInt = Keys.YO_QUALITY_LIST_STREAM.index(quality)
                 except:
                     pass
+#                xbmc.log(json.dumps(self.qualityList))
                 self.playlist[qualityInt] = url
         if not self.playlist:
             # playlist dict is empty
